@@ -63,31 +63,31 @@ jobs:
         cd ${{ github.workspace }}
         dir
         cd Source\CDR.Register.Admin.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.Admin.API.exe
+        start /B CDR.Register.Admin.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.Status.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.Status.API.exe
+        start /B CDR.Register.Status.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.Discovery.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.Discovery.API.exe
+        start /B CDR.Register.Discovery.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.SSA.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.SSA.API.exe
+        start /B CDR.Register.SSA.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.API.Gateway.mTLS\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.API.Gateway.mTLS.exe
+        start /B CDR.Register.API.Gateway.mTLS.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.API.Gateway.TLS\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.API.Gateway.TLS.exe
+        start /B CDR.Register.API.Gateway.TLS.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
-        Start-Process -FilePath .\CDR.Register.IdentityServer.exe
+        start /B CDR.Register.IdentityServer.exe
         
         $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
         $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"

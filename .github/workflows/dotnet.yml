@@ -38,30 +38,58 @@ jobs:
 #         Invoke-Expression $command
 #       shell: powershell
       
-    - name: Create CDR folder
+    - name: Publish
       run: |
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+      
+    - name: Run projects
+      run: |
+        echo Hello world
+        echo ${{ github.workspace }}
+        
         cd ${{ github.workspace }}
-        mkdir CDR
-        setx ASPNETCORE_ENVIRONMENT "Pipeline" /M
+        dir
+        cd Source\CDR.Register.Admin.API\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.Admin.API.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.Status.API\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.Status.API.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.Discovery.API\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.Discovery.API.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.SSA.API\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.SSA.API.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.API.Gateway.mTLS\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.API.Gateway.mTLS.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.API.Gateway.TLS\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.API.Gateway.TLS.exe --environment=Pipeline"
+        cd ${{ github.workspace }}
+        
+        cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
+        cmd /c "start /b CDR.Register.IdentityServer.exe --environment=Pipeline"
       shell: cmd
       
-#    - name: Publish
-#      run: |
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-    
-    - name: Build container
+    - name: Install root certificate
       run: |
-        cd ${{ github.workspace }}\Source
-        docker build . -t mock-cdr-register
-      
-    - name: Run container
-      run: docker run -d -h mock-cdr-register -p 7000:7000 -p 7001:7001 -p 7006:7006 --name mock-cdr-register
+        # Write your PowerShell commands here.
+        $PlainPassword = "#M0ckCDRCA#" 
+        $SecurePassword = $PlainPassword | ConvertTo-SecureString -AsPlainText -Force
+        Import-PfxCertificate -Password $SecurePassword -FilePath "CertificateManagement/mtls/ca.pfx" -CertStoreLocation Cert:\LocalMachine\Root
+      shell: powershell
       
     - name: Integration Tests
       run: |

@@ -92,22 +92,28 @@ jobs:
         Write-Host "Sleeping for 20 seconds..."
         Start-Sleep -s 20
         
-        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
+        $log = Get-Content "/tmp/cdr-mr-discovery-api.log"
+        Write-Host $log
         
-        Write-Host "curl 0"
-        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
-        $apiRes = $apiReq.GetResponse()
-        Write-Host $apiRes
+        $log = Get-Content "/tmp/cdr-mr-admin-api.log"
+        Write-Host $log
         
-        Write-Host "curl 1"
-        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
-        $apiRes = $apiReq.GetResponse()
-        Write-Host $apiRes.StatusCode
+        #[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
-        Write-Host "curl 2"
-        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients")
-        $apiRes = $apiReq.GetResponse()
-        Write-Host $apiRes
+        #Write-Host "curl 0"
+        #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
+        #$apiRes = $apiReq.GetResponse()
+        #Write-Host $apiRes
+        
+        #Write-Host "curl 1"
+        #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
+        #$apiRes = $apiReq.GetResponse()
+        #Write-Host $apiRes.StatusCode
+        
+        #Write-Host "curl 2"
+        #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients")
+        #$apiRes = $apiReq.GetResponse()
+        #Write-Host $apiRes
         
         $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
         $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"

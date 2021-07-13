@@ -89,6 +89,12 @@ jobs:
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
         Start-Process -FilePath "CDR.Register.IdentityServer.exe" -WindowStyle Hidden
         
+        Write-Host "curl 1"
+        curl https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients
+        
+        Write-Host "curl 2"
+        curl https://localhost:7000/cdr-register/v1/banking/data-recipients
+        
         $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
         $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"
         $testRunSettings = "/Settings:`"${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.runsettings`" "

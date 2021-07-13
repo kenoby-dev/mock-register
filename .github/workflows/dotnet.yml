@@ -38,15 +38,15 @@ jobs:
 #         Invoke-Expression $command
 #       shell: powershell
       
-    - name: Publish
-      run: |
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#    - name: Publish
+#      run: |
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
       
     - name: Install root certificate
       run: |
@@ -60,35 +60,14 @@ jobs:
       run: |
         echo ${{ github.workspace }}
         
-        cd ${{ github.workspace }}
-        dir
-        cd Source\CDR.Register.Admin.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.Admin.API.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --launch-profile CDR.Register.API.Gateway.TLS.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Admin.API --launch-profile CDR.Register.Admin.API.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Discovery.API --launch-profile CDR.Register.Discovery.API.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.SSA.API --launch-profile CDR.Register.SSA.API.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Status.API --launch-profile CDR.Register.Status.API.Pipeline
+        dotnet run -v d -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline
         
-        cd Source\CDR.Register.Status.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.Status.API.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
-        
-        cd Source\CDR.Register.Discovery.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.Discovery.API.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
-        
-        cd Source\CDR.Register.SSA.API\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.SSA.API.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
-        
-        cd Source\CDR.Register.API.Gateway.mTLS\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.API.Gateway.mTLS.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
-        
-        cd Source\CDR.Register.API.Gateway.TLS\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.API.Gateway.TLS.exe" -WindowStyle Hidden
-        cd ${{ github.workspace }}
-        
-        cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
-        Start-Process -FilePath "CDR.Register.IdentityServer.exe" -WindowStyle Hidden
-
         Write-Host "Sleeping for 20 seconds..."
         Start-Sleep -s 20
         

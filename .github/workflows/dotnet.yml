@@ -90,7 +90,7 @@ jobs:
         Start-Process -FilePath "CDR.Register.IdentityServer.exe" -WindowStyle Hidden
 
         Write-Host "Sleeping for 20 seconds..."
-        Start-Sleep 20
+        Start-Sleep -s 20
         
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         

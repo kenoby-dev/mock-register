@@ -56,7 +56,9 @@ jobs:
 #        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
     
     - name: Build container
-      run: docker build -t mock-cdr-register < ${{ github.workspace }}\Source\Dockerfile
+      run: |
+        cd ${{ github.workspace }}\Source
+        docker build -t mock-cdr-register
       
     - name: Run container
       run: docker run -d -h mock-cdr-register -p 7000:7000 -p 7001:7001 -p 7006:7006 --name mock-cdr-register

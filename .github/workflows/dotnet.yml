@@ -56,38 +56,31 @@ jobs:
         cd ${{ github.workspace }}
         dir
         cd Source\CDR.Register.Admin.API\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.Admin.API.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.Admin.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.Status.API\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.Status.API.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.Status.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.Discovery.API\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.Discovery.API.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.Discovery.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.SSA.API\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.SSA.API.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.SSA.API.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.API.Gateway.mTLS\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.API.Gateway.mTLS.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.API.Gateway.mTLS.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.API.Gateway.TLS\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.API.Gateway.TLS.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.API.Gateway.TLS.exe
         cd ${{ github.workspace }}
         
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
-        $output = cmd /c "start /b CDR.Register.IdentityServer.exe --environment=Pipeline"
-        echo $output
+        Start-Process -FilePath .\CDR.Register.IdentityServer.exe
       shell: powershell
       
     - name: Install root certificate

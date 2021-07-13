@@ -60,31 +60,31 @@ jobs:
       run: |
         echo ${{ github.workspace }}
         
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --launch-profile CDR.Register.API.Gateway.TLS.Pipeline
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline"
         Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Admin.API --launch-profile CDR.Register.Admin.API.Pipeline"
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Discovery.API --launch-profile CDR.Register.Discovery.API.Pipeline
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.SSA.API --launch-profile CDR.Register.SSA.API.Pipeline
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Status.API --launch-profile CDR.Register.Status.API.Pipeline
-        #dotnet run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Discovery.API --launch-profile CDR.Register.Discovery.API.Pipeline"
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.SSA.API --launch-profile CDR.Register.SSA.API.Pipeline"
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Status.API --launch-profile CDR.Register.Status.API.Pipeline"
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline"
         
         Write-Host "Sleeping for 20 seconds..."
         Start-Sleep -s 20
         
-        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
-        Write-Host $log
+        #$log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
+        #Write-Host $log
         
         #[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
-        #Write-Host "curl 0"
-        #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
-        #$apiRes = $apiReq.GetResponse()
-        #Write-Host $apiRes
+        Write-Host "curl 0"
+        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
+        $apiRes = $apiReq.GetResponse()
+        Write-Host $apiRes.StatusCode
         
-        #Write-Host "curl 1"
-        #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
-        #$apiRes = $apiReq.GetResponse()
-        #Write-Host $apiRes.StatusCode
+        Write-Host "curl 1"
+        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
+        $apiRes = $apiReq.GetResponse()
+        Write-Host $apiRes.StatusCode
         
         #Write-Host "curl 2"
         #$apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients")

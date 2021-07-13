@@ -48,9 +48,16 @@ jobs:
         dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
         dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
       
-    - name: Run projects
+    - name: Install root certificate
       run: |
-        echo Hello world
+        # Write your PowerShell commands here.
+        $PlainPassword = "#M0ckCDRCA#" 
+        $SecurePassword = $PlainPassword | ConvertTo-SecureString -AsPlainText -Force
+        Import-PfxCertificate -Password $SecurePassword -FilePath "CertificateManagement/mtls/ca.pfx" -CertStoreLocation Cert:\LocalMachine\Root
+      shell: powershell
+      
+    - name: Integration Tests
+      run: |
         echo ${{ github.workspace }}
         
         cd ${{ github.workspace }}
@@ -81,18 +88,7 @@ jobs:
         
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
         Start-Process -FilePath .\CDR.Register.IdentityServer.exe
-      shell: powershell
-      
-    - name: Install root certificate
-      run: |
-        # Write your PowerShell commands here.
-        $PlainPassword = "#M0ckCDRCA#" 
-        $SecurePassword = $PlainPassword | ConvertTo-SecureString -AsPlainText -Force
-        Import-PfxCertificate -Password $SecurePassword -FilePath "CertificateManagement/mtls/ca.pfx" -CertStoreLocation Cert:\LocalMachine\Root
-      shell: powershell
-      
-    - name: Integration Tests
-      run: |
+        
         $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
         $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"
         $testRunSettings = "/Settings:`"${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.runsettings`" "

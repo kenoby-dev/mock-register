@@ -74,7 +74,7 @@ jobs:
         #$log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
         #Write-Host $log
         
-        #[System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
         Write-Host "curl 0"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")

@@ -92,12 +92,12 @@ jobs:
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
         Write-Host "curl 1"
-        $apiReq = [System.Net.HttpWebRequest]::CreateHttp(https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients)
+        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients")
         $apiRes = $apiReq.GetResponse()
         Write-Host $apiRes
         
         Write-Host "curl 2"
-        $apiReq = [System.Net.HttpWebRequest]::CreateHttp(https://localhost:7000/cdr-register/v1/banking/data-recipients)
+        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
         $apiRes = $apiReq.GetResponse()
         Write-Host $apiRes
         

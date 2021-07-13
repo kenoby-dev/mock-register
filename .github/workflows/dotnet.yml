@@ -88,7 +88,7 @@ jobs:
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
         $output = cmd /c "start /b CDR.Register.IdentityServer.exe --environment=Pipeline"
         echo $output
-      shell: cmd
+      shell: powershell
       
     - name: Install root certificate
       run: |

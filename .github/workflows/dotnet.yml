@@ -45,18 +45,21 @@ jobs:
         setx ASPNETCORE_ENVIRONMENT "Pipeline" /M
       shell: cmd
       
-    - name: Publish
-      run: |
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
-        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#    - name: Publish
+#      run: |
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Admin.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Discovery.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.IdentityServer --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.SSA.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+#        dotnet publish ${{ github.workspace }}\Source\CDR.Register.Status.API --configuration ${{ env.buildConfiguration }} --runtime ${{ env.buildRuntime }} --no-restore --self-contained true 
+    
+    - name: Build container
+      run: docker build -t mock-cdr-register < ${{ github.workspace }}\Source\Dockerfile
       
-    - name: Start container
-      run: docker-compose -f ${{ github.workspace }}\Source\Dockerfile up -d --build
+    - name: Run container
+      run: docker run -d -h mock-cdr-register -p 7000:7000 -p 7001:7001 -p 7006:7006 --name mock-cdr-register
       
     - name: Integration Tests
       run: |

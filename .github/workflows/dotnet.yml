@@ -89,6 +89,9 @@ jobs:
         cd Source\CDR.Register.IdentityServer\bin\Release\net5.0\win-x64
         Start-Process -FilePath "CDR.Register.IdentityServer.exe" -WindowStyle Hidden
 
+        Write-Host "Sleeping for 20 seconds..."
+        Start-Sleep 20
+        
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
         Write-Host "curl 0"
@@ -99,7 +102,7 @@ jobs:
         Write-Host "curl 1"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
         $apiRes = $apiReq.GetResponse()
-        Write-Host $apiRes
+        Write-Host $apiRes.StatusCode
         
         Write-Host "curl 2"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://127.0.0.1:7000/cdr-register/v1/banking/data-recipients")

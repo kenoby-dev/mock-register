@@ -91,6 +91,11 @@ jobs:
 
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
+        Write-Host "curl 0"
+        $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
+        $apiRes = $apiReq.GetResponse()
+        Write-Host $apiRes
+        
         Write-Host "curl 1"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
         $apiRes = $apiReq.GetResponse()

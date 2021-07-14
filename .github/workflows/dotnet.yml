@@ -71,15 +71,15 @@ jobs:
         Write-Host "Sleeping for 60 seconds..."
         Start-Sleep -s 60
         
-        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-tls-gateway.log"
-        Write-Host $log
-        
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
         Write-Host "curl 0"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
         $apiRes = $apiReq.GetResponse()
         Write-Host $apiRes.StatusCode
+            
+        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-tls-gateway.log"
+        Write-Host $log
         
         Write-Host "curl 1"
         $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")

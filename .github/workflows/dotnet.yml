@@ -61,12 +61,7 @@ jobs:
         echo ${{ github.workspace }}
         
         Write-Host "Creating the temporary CDR directory which holds the logs and database file..."
-        cd D:\a
-        mkdir 1
-        cd D:\a\1
-        mkdir s
-        cd D:\a\1\s
-        mkdir cdr
+        New-Item -ItemType Directory -Path d:\a\1\s\cdr -Force
         
         Write-Host "Running the solutions..."
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
@@ -95,9 +90,11 @@ jobs:
         Write-Host "Sleeping for 30 seconds..."
         Start-Sleep -s 30
         
+        Write-Host "Listing contents of D:\a\1\s\cdr directory..."
         cd D:\a\1\s\cdr
         dir
-        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
+        
+        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log" -Raw
         Write-Host $log
         
         Write-Host "Basic connectivity testing..."

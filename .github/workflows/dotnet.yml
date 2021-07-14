@@ -71,7 +71,7 @@ jobs:
         Write-Host "Sleeping for 60 seconds..."
         Start-Sleep -s 60
         
-        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
+        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-tls-gateway.log"
         Write-Host $log
         
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }

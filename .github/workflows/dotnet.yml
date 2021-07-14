@@ -61,8 +61,10 @@ jobs:
         echo ${{ github.workspace }}
         
         Write-Host "Creating the temporary CDR directory which holds the logs and database file..."
-        mkdir D:\a\1\s\cdr\
+        cd D:\a\1\s\
+        mkdir cdr
         
+        Write-Host "Running the solutions..."
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
         Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
         
@@ -89,6 +91,7 @@ jobs:
         Write-Host "Sleeping for 30 seconds..."
         Start-Sleep -s 30
         
+        Write-Host "Basic connectivity testing..."
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         
         try
@@ -122,6 +125,7 @@ jobs:
           Write-Host $log
         }
         
+        Write-Host "Running the integration tests..."
         $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
         $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"
         $testRunSettings = "/Settings:`"${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.runsettings`" "

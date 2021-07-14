@@ -133,7 +133,7 @@ jobs:
         
         Write-Host "Running the integration tests..."
         cd ${{ github.workspace }}\Source\CDR.Register.IntegrationTests
-        dotnet build -c "Release"
-        dotnet test ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\CDR.Register.IntegrationTests.dll --settings ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.pipeline.runsettings
+        #dotnet build -c "Release"
+        dotnet test ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll --settings ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.pipeline.runsettings
 
       shell: powershell

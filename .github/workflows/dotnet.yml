@@ -61,7 +61,7 @@ jobs:
         echo ${{ github.workspace }}
         
         Write-Host "Creating the temporary CDR directory which holds the logs and database file..."
-        New-Item -ItemType Directory -Path d:\a\1\s\cdr -Force
+        New-Item -ItemType Directory -Path d:\a\mock-register\mock-register\cdr -Force
         
         Write-Host "Running the solutions..."
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
@@ -90,11 +90,11 @@ jobs:
         Write-Host "Sleeping for 30 seconds..."
         Start-Sleep -s 30
         
-        Write-Host "Listing contents of D:\a\1\s\cdr directory..."
-        cd D:\a\1\s\cdr
+        Write-Host "Listing contents of d:\a\mock-register\mock-register\cdr directory..."
+        cd d:\a\mock-register\mock-register\cdr
         dir
         
-        $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log" -Raw
+        $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-admin-api.log" -Raw
         Write-Host $log
         
         Write-Host "Basic connectivity testing..."
@@ -110,10 +110,10 @@ jobs:
         catch
         {
           Write-Host "Web request failed"
-          $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-tls-gateway.log"
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-tls-gateway.log"
           Write-Host $log
           
-          $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-identityserver.log"
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-identityserver.log"
           Write-Host $log
         }
         
@@ -127,7 +127,7 @@ jobs:
         catch
         {
           Write-Host "Web request failed"
-          $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-tls-gateway.log"
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-tls-gateway.log"
           Write-Host $log
         }
         

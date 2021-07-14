@@ -60,6 +60,9 @@ jobs:
       run: |
         echo ${{ github.workspace }}
         
+        Write-Host "Creating the temporary CDR directory which holds the logs and database file..."
+        mkdir D:\a\1\s\cdr\
+        
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
         Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
         

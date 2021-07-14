@@ -61,7 +61,11 @@ jobs:
         echo ${{ github.workspace }}
         
         Write-Host "Creating the temporary CDR directory which holds the logs and database file..."
-        cd D:\a\1\s\
+        cd D:\a
+        mkdir 1
+        cd D:\a\1
+        mkdir s
+        cd D:\a\1\s
         mkdir cdr
         
         Write-Host "Running the solutions..."

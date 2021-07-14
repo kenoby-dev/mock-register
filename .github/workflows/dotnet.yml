@@ -95,6 +95,8 @@ jobs:
         Write-Host "Sleeping for 30 seconds..."
         Start-Sleep -s 30
         
+        cd D:\a\1\s\cdr
+        dir
         $log = Get-Content "D:\\a\\1\\s\\cdr\\Logs\\cdr-mr-admin-api.log"
         Write-Host $log
         

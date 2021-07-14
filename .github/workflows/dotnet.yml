@@ -61,7 +61,7 @@ jobs:
         echo ${{ github.workspace }}
         
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
         
         cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS
         Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline"
@@ -83,8 +83,8 @@ jobs:
         
         cd ${{ github.workspace }}
         
-        Write-Host "Sleeping for 20 seconds..."
-        Start-Sleep -s 20
+        Write-Host "Sleeping for 30 seconds..."
+        Start-Sleep -s 30
         
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         

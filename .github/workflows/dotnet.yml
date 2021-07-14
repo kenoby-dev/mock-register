@@ -60,7 +60,8 @@ jobs:
       run: |
         echo ${{ github.workspace }}
         
-        dotnet run -v n -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline
+        cd ${{ github.workspace }}\Source\CDR.Register.IdentityServer
+        dotnet run -v n -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.IdentityServer.Pipeline
         
         #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
         #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline"
@@ -70,8 +71,8 @@ jobs:
         #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Status.API --launch-profile CDR.Register.Status.API.Pipeline"
         #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline"
         
-        Write-Host "Sleeping for 60 seconds..."
-        Start-Sleep -s 60
+        #Write-Host "Sleeping for 60 seconds..."
+        #Start-Sleep -s 60
         
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         

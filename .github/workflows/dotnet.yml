@@ -60,19 +60,31 @@ jobs:
       run: |
         echo ${{ github.workspace }}
         
+        cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS
+        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
+        
+        cd ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline"
+        
+        cd ${{ github.workspace }}\Source\CDR.Register.Admin.API
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.Admin.API.Pipeline"
+        
+        cd ${{ github.workspace }}\Source\CDR.Register.Discovery.API
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.Discovery.API.Pipeline"
+        
+        cd ${{ github.workspace }}\Source\CDR.Register.SSA.API
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.SSA.API.Pipeline"
+        
+        cd ${{ github.workspace }}\Source\CDR.Register.Status.API
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.Status.API.Pipeline"
+        
         cd ${{ github.workspace }}\Source\CDR.Register.IdentityServer
-        dotnet run -v n -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.IdentityServer.Pipeline
+        Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} --launch-profile CDR.Register.IdentityServer.Pipeline"
         
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.TLS --launch-profile CDR.Register.API.Gateway.TLS.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.API.Gateway.mTLS --launch-profile CDR.Register.API.Gateway.mTLS.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Admin.API --launch-profile CDR.Register.Admin.API.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Discovery.API --launch-profile CDR.Register.Discovery.API.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.SSA.API --launch-profile CDR.Register.SSA.API.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.Status.API --launch-profile CDR.Register.Status.API.Pipeline"
-        #Start-Process dotnet -ArgumentList "run -v m -c ${{ env.buildConfiguration }} -p ${{ github.workspace }}\Source\CDR.Register.IdentityServer --launch-profile CDR.Register.IdentityServer.Pipeline"
+        cd ${{ github.workspace }}
         
-        #Write-Host "Sleeping for 60 seconds..."
-        #Start-Sleep -s 60
+        Write-Host "Sleeping for 20 seconds..."
+        Start-Sleep -s 20
         
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
         

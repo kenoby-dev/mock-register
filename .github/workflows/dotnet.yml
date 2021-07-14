@@ -102,7 +102,7 @@ jobs:
         
         try
         {
-          Write-Host "curl 0"
+          Write-Host "Testing https://localhost:7000/idp/.well-known/openid-configuration..."
           $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/idp/.well-known/openid-configuration")
           $apiRes = $apiReq.GetResponse()
           Write-Host $apiRes.StatusCode
@@ -110,22 +110,19 @@ jobs:
         catch
         {
           Write-Host "Web request failed"
-          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-tls-gateway.log"
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-tls-gateway.log" -Raw
           Write-Host $log
           
-          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-identityserver.log"
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-identityserver.log" -Raw
           Write-Host $log
         }
         
         try
         {
-          Write-Host "curl 1"
+          Write-Host "Testing https://localhost:7000/cdr-register/v1/banking/data-recipients..."
           $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
           $apiRes = $apiReq.GetResponse()
           Write-Host $apiRes.StatusCode
-          
-          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-discovery-api.log" -Raw
-          Write-Host $log
         }
         catch
         {
@@ -135,6 +132,8 @@ jobs:
         }
         
         Write-Host "Running the integration tests..."
+        cd ${{ github.workspace }}\Source\CDR.Register.IntegrationTests
+        dotnet build -c "Release"
         dotnet test ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\CDR.Register.IntegrationTests.dll --settings ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.pipeline.runsettings
 
       shell: powershell

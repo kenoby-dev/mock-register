@@ -135,11 +135,6 @@ jobs:
         }
         
         Write-Host "Running the integration tests..."
-        $vsTestConsoleExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
-        $targetTestDll = "${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\win-x64\CDR.Register.IntegrationTests.dll"
-        $testRunSettings = "/Settings:`"${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.runsettings`" "
-        #Note that the `" is an escape character to quote strings, and the `& is needed to start the command
-        $command = "`& `"$vsTestConsoleExe`" `"$targetTestDll`" $testRunSettings $parameters"
-        Write-Host "$command"
-        Invoke-Expression $command
+        dotnet test ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\bin\Release\net5.0\CDR.Register.IntegrationTests.dll --settings ${{ github.workspace }}\Source\CDR.Register.IntegrationTests\integration.pipeline.runsettings
+
       shell: powershell

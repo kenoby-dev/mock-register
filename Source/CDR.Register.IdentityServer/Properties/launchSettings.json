@@ -24,6 +24,8 @@
         },
         "CDR.Register.IdentityServer.Pipeline": {
             "commandName": "Project",
+            "dotnetRunMessages": "true",
+            "launchBrowser": false,
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Pipeline"
             },

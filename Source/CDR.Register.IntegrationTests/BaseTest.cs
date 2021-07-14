@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 using CDR.Register.IntegrationTests.Extensions;
 using CDR.Register.IntegrationTests.Fixtures;
-using CDR.Register.IntegrationTests.Infrastructure;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -24,6 +23,26 @@ namespace CDR.Register.IntegrationTests
     [Collection("IntegrationTests")]
     abstract public class BaseTest : IClassFixture<SeedDatabaseFixture>
     {
+
+        private IConfiguration _configuration;
+
+        public BaseTest()
+        {
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", true)
+                .Build();
+        }
+
+        public IConfiguration Configuration
+        {
+            get
+            {
+                return _configuration;
+            }
+        }
+
         // Client certificates
         protected const string CERTIFICATE_FILENAME = "certificates\\client.pfx";
         protected const string CERTIFICATE_PASSWORD = "#M0ckDataRecipient#";
@@ -31,9 +50,6 @@ namespace CDR.Register.IntegrationTests
         protected const string ADDITIONAL_CERTIFICATE_PASSWORD = CERTIFICATE_PASSWORD;
 
         public const string SEEDDATA_FILENAME = "Data\\seed-data.json";
-
-        // Sqlite
-        public const string SQLITECONNECTIONSTRING = "Data Source=C:\\cdr\\CDR.db";
 
         // URLs
         public const string TLS_BaseURL = "https://localhost:7000";
@@ -139,9 +155,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Get status of SoftwareProduct
         /// </summary>
-        public static int GetSoftwareProductStatusId(string softwareProductId)
+        public int GetSoftwareProductStatusId(string softwareProductId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             using var selectCommand = new SqliteCommand("select statusid from softwareproduct where softwareproductid = @softwareproductid", connection);
@@ -153,9 +169,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Set status of SoftwareProduct
         /// </summary>
-        public static void SetSoftwareProductStatusId(string softwareProductId, int statusId)
+        public void SetSoftwareProductStatusId(string softwareProductId, int statusId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             // Update status
@@ -177,9 +193,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Get status of Brand
         /// </summary>
-        public static int GetBrandStatusId(string brandId)
+        public int GetBrandStatusId(string brandId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             using var selectCommand = new SqliteCommand("select brandstatusid from brand where brandid = @brandid", connection);
@@ -191,9 +207,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Set status of Brand
         /// </summary>
-        public static void SetBrandStatusId(string brandId, int statusId)
+        public void SetBrandStatusId(string brandId, int statusId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             // Update status
@@ -215,9 +231,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Get participationid for brand
         /// </summary>
-        public static string GetParticipationId(string brandId)
+        public string GetParticipationId(string brandId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             using var selectCommand = new SqliteCommand("select participationid from brand where brandid = @brandid", connection);
@@ -229,9 +245,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Get status of Participation
         /// </summary>
-        public static int GetParticipationStatusId(string participationId)
+        public int GetParticipationStatusId(string participationId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             using var selectCommand = new SqliteCommand("select statusid from participation where participationid = @participationid", connection);
@@ -243,9 +259,9 @@ namespace CDR.Register.IntegrationTests
         /// <summary>
         /// Get status of Participation
         /// </summary>
-        public static void SetParticipationStatusId(string participationId, int statusId)
+        public void SetParticipationStatusId(string participationId, int statusId)
         {
-            using var connection = new SqliteConnection(SQLITECONNECTIONSTRING);
+            using var connection = new SqliteConnection(Configuration.GetConnectionString("DefaultConnection"));
             connection.Open();
 
             // Update status

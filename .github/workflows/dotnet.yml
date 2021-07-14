@@ -94,8 +94,8 @@ jobs:
         cd d:\a\mock-register\mock-register\cdr
         dir
         
-        $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-admin-api.log" -Raw
-        Write-Host $log
+        #$log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-admin-api.log" -Raw
+        #Write-Host $log
         
         Write-Host "Basic connectivity testing..."
         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True }
@@ -123,6 +123,9 @@ jobs:
           $apiReq = [System.Net.HttpWebRequest]::CreateHttp("https://localhost:7000/cdr-register/v1/banking/data-recipients")
           $apiRes = $apiReq.GetResponse()
           Write-Host $apiRes.StatusCode
+          
+          $log = Get-Content "d:\\a\\mock-register\\mock-register\\cdr\\Logs\\cdr-mr-discovery-api.log" -Raw
+          Write-Host $log
         }
         catch
         {
